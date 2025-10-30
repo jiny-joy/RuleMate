@@ -71,6 +71,49 @@ npm run build
 
 빌드된 파일은 `dist` 폴더에 생성됩니다.
 
+## Vercel 배포 가이드
+
+이 프로젝트는 Vercel에 쉽게 배포할 수 있도록 설정되어 있습니다.
+
+### 1. Vercel 계정 생성 및 프로젝트 연결
+
+1. [Vercel](https://vercel.com)에 접속하여 GitHub 계정으로 로그인
+2. "Add New..." → "Project" 클릭
+3. GitHub 저장소를 import
+
+### 2. 환경 변수 설정
+
+Vercel 프로젝트 설정에서 환경 변수를 추가합니다:
+
+1. 프로젝트 → Settings → Environment Variables
+2. 다음 변수 추가:
+   - **Key**: `VITE_ANTHROPIC_API_KEY`
+   - **Value**: `your_anthropic_api_key_here`
+   - **Environment**: Production, Preview, Development 모두 체크
+
+### 3. 배포
+
+```bash
+# Vercel CLI 설치 (선택사항)
+npm install -g vercel
+
+# 배포
+vercel
+
+# 프로덕션 배포
+vercel --prod
+```
+
+또는 GitHub에 push하면 자동으로 배포됩니다.
+
+### 4. Serverless Function 확인
+
+배포 후 다음 엔드포인트가 자동으로 생성됩니다:
+- `https://your-project.vercel.app/api/claude`
+
+로컬 개발 시에는 `http://localhost:3001/api/claude`를 사용하고,
+프로덕션에서는 자동으로 Vercel serverless function을 사용합니다.
+
 ## 커스터마이징 가이드
 
 챗봇을 자신의 회사에 맞게 수정할 수 있습니다.

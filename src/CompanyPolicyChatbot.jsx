@@ -322,8 +322,12 @@ export default function CompanyPolicyChatbot() {
     });
 
     try {
-      // 백엔드 프록시 서버를 통해 Claude API 호출
-      const response = await fetch('http://localhost:3001/api/claude', {
+      // API 엔드포인트: 로컬 개발 시 localhost:3001, 프로덕션 시 /api/claude (Vercel serverless)
+      const apiEndpoint = import.meta.env.DEV
+        ? 'http://localhost:3001/api/claude'
+        : '/api/claude';
+
+      const response = await fetch(apiEndpoint, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
