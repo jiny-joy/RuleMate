@@ -323,7 +323,8 @@ export default function CompanyPolicyChatbot() {
 
     try {
       // API 엔드포인트: 로컬 개발 시 localhost:3001, 프로덕션 시 /api/claude (Vercel serverless)
-      const apiEndpoint = import.meta.env.DEV
+      const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+      const apiEndpoint = isLocalhost
         ? 'http://localhost:3001/api/claude'
         : '/api/claude';
 
