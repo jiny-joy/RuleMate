@@ -18,8 +18,5 @@
       "src": "/(.*)",
       "dest": "/$1"
     }
-  ],
-  "env": {
-    "VITE_ANTHROPIC_API_KEY": "@vite_anthropic_api_key"
-  }
+  ]
 }
