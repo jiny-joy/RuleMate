@@ -102,11 +102,17 @@ const POLICY_CATEGORIES = {
 
 제35조【경조사휴가】
 1. 본인의 결혼: 5일
-2. 배우자의 출산: 10일 (출산한 날부터 90일 이내 신청 및 사용)
-3. 본인·배우자의 부모 또는 배우자의 사망: 5일
-4. 본인·배우자의 조부모 또는 외조부모의 사망: 3일
-5. 자녀 또는 그 자녀의 배우자의 사망: 3일
-6. 자녀의 결혼: 1일
+2. 본인·배우자의 부모 또는 배우자의 사망: 5일
+3. 본인·배우자의 조부모 또는 외조부모의 사망: 3일
+4. 자녀 또는 그 자녀의 배우자의 사망: 3일
+5. 자녀의 결혼: 1일
+
+제35조의2【배우자 출산휴가】
+1. 회사는 사원 배우자의 출산을 이유로 고(高)하는 경우 20일의 배우자 출산휴가를 부여한다.
+2. 다만, 출산전후휴가기간 등이 지원된 경우 그 금액의 한도에서 지급 책임을 면한다.
+3. 제1항의 휴가는 배우자가 출산한 날부터 90일 이내에 신청 및 사용하여야 한다.
+4. 배우자 출산휴가는 3회에 한정하여 나누어 사용할 수 있다.
+5. 회사는 배우자 출산휴가를 이유로 사원을 해고하거나 그 밖의 불리한 처우를 하여서는 아니 된다.
 
 제36조【생리휴가】
 회사는 여성 사원이 청구하는 경우 월 1일의 무급 생리휴가를 부여한다.
@@ -491,20 +497,20 @@ ${currentPolicy.document}
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-4">
       <div className="max-w-6xl mx-auto">
         {/* 헤더 */}
-        <div className="bg-white rounded-t-2xl shadow-lg p-6 border-b">
-          <div className="flex items-center justify-between mb-4">
+        <div className="bg-white rounded-t-2xl shadow-lg p-4 sm:p-6 border-b">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
             <div className="flex items-center gap-3">
-              <FileText className="w-8 h-8 text-blue-600" />
-              <div>
-                <h1 className="text-2xl font-bold text-gray-800 flex items-center gap-2">
+              <FileText className="w-6 h-6 sm:w-8 sm:h-8 text-blue-600 flex-shrink-0" />
+              <div className="min-w-0 flex-1">
+                <h1 className="text-lg sm:text-2xl font-bold text-gray-800">
                   {COMPANY_NAME} 규정메이트
                 </h1>
-                <p className="text-sm text-slate-600">
+                <p className="text-xs sm:text-sm text-slate-600 break-keep">
                   AI가 회사 규정과 근로기준법을 기반으로 정확하고 간결하게 답변합니다.
                 </p>
               </div>
             </div>
-            <span className="px-3 py-1 rounded-full text-xs font-semibold bg-amber-100 text-amber-700 shadow">
+            <span className="px-3 py-1 rounded-full text-xs font-semibold bg-amber-100 text-amber-700 shadow self-start sm:self-auto whitespace-nowrap">
               AI Assistant
             </span>
           </div>
