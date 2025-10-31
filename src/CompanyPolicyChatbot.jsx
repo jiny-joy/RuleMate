@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Send, FileText, Book, Plane, MessageCircle, Mail, Phone, X, MessageSquare, Bot } from 'lucide-react';
+import { Send, FileText, Book, Plane, MessageCircle, Mail, Phone, X, MessageSquare, Bot, Moon, Sun } from 'lucide-react';
 
 // 🔧 커스터마이징 포인트 1: 여기에 카테고리와 문서 내용을 추가/수정하세요
 const POLICY_CATEGORIES = {
@@ -308,6 +308,7 @@ export default function CompanyPolicyChatbot() {
   const [inputMessage, setInputMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [showContactModal, setShowContactModal] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(false);
 
   // 카테고리 변경 시 대화 초기화
   const handleCategoryChange = (categoryKey) => {
@@ -494,27 +495,54 @@ ${currentPolicy.document}
   const CategoryIcon = currentPolicy.icon;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 p-4 sm:p-6">
+    <div className={`min-h-screen p-4 sm:p-6 transition-colors duration-300 ${
+      isDarkMode
+        ? 'bg-gradient-to-br from-gray-900 via-slate-900 to-gray-900'
+        : 'bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50'
+    }`}>
       <div className="max-w-5xl mx-auto">
         {/* 헤더 */}
-        <div className="bg-white/90 backdrop-blur-sm rounded-t-3xl shadow-xl border border-gray-100 p-5 sm:p-8">
+        <div className={`backdrop-blur-sm rounded-t-3xl shadow-xl border p-5 sm:p-8 transition-colors duration-300 ${
+          isDarkMode
+            ? 'bg-gray-800/90 border-gray-700'
+            : 'bg-white/90 border-gray-100'
+        }`}>
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-4 flex-1">
               <div className="bg-gradient-to-br from-blue-500 to-indigo-600 p-3 rounded-2xl shadow-lg">
                 <FileText className="w-6 h-6 sm:w-7 sm:h-7 text-white flex-shrink-0" />
               </div>
               <div className="min-w-0 flex-1">
-                <h1 className="text-xl sm:text-3xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">
+                <h1 className={`text-xl sm:text-3xl font-bold bg-gradient-to-r bg-clip-text text-transparent ${
+                  isDarkMode
+                    ? 'from-blue-400 to-indigo-400'
+                    : 'from-gray-800 to-gray-600'
+                }`}>
                   {COMPANY_NAME} 규정메이트
                 </h1>
-                <p className="text-xs sm:text-sm text-gray-500 break-keep mt-1">
+                <p className={`text-xs sm:text-sm break-keep mt-1 ${
+                  isDarkMode ? 'text-gray-400' : 'text-gray-500'
+                }`}>
                   AI가 회사 규정과 근로기준법을 기반으로 정확하고 간결하게 답변합니다.
                 </p>
               </div>
             </div>
-            <span className="px-4 py-2 rounded-full text-xs font-semibold bg-gradient-to-r from-amber-400 to-orange-400 text-white shadow-md self-start sm:self-auto whitespace-nowrap">
-              ✨ AI Assistant
-            </span>
+            <div className="flex items-center gap-3">
+              <button
+                onClick={() => setIsDarkMode(!isDarkMode)}
+                className={`p-2.5 rounded-xl transition-all duration-200 transform hover:scale-110 ${
+                  isDarkMode
+                    ? 'bg-gray-700 hover:bg-gray-600 text-yellow-400'
+                    : 'bg-gray-100 hover:bg-gray-200 text-gray-700'
+                }`}
+                title={isDarkMode ? '라이트 모드로 전환' : '다크 모드로 전환'}
+              >
+                {isDarkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+              </button>
+              <span className="px-4 py-2 rounded-full text-xs font-semibold bg-gradient-to-r from-amber-400 to-orange-400 text-white shadow-md whitespace-nowrap">
+                ✨ AI Assistant
+              </span>
+            </div>
           </div>
 
           {/* 카테고리 선택 버튼 */}
@@ -527,8 +555,10 @@ ${currentPolicy.document}
                   onClick={() => handleCategoryChange(key)}
                   className={`flex items-center gap-2 px-5 py-2.5 rounded-xl transition-all duration-200 font-medium ${
                     selectedCategory === key
-                      ? `${policy.color} text-white shadow-lg shadow-blue-200 scale-105`
-                      : 'bg-gray-50 text-gray-700 hover:bg-white hover:shadow-md border border-gray-200 hover:border-blue-200'
+                      ? `${policy.color} text-white shadow-lg ${isDarkMode ? 'shadow-blue-900' : 'shadow-blue-200'} scale-105`
+                      : isDarkMode
+                        ? 'bg-gray-700 text-gray-200 hover:bg-gray-600 hover:shadow-md border border-gray-600 hover:border-blue-500'
+                        : 'bg-gray-50 text-gray-700 hover:bg-white hover:shadow-md border border-gray-200 hover:border-blue-200'
                   }`}
                 >
                   <Icon className="w-4 h-4" />
@@ -540,19 +570,35 @@ ${currentPolicy.document}
         </div>
 
         {/* 채팅 영역 */}
-        <div className="bg-white/90 backdrop-blur-sm shadow-xl border-x border-gray-100" style={{ height: '700px', overflow: 'hidden' }}>
+        <div className={`backdrop-blur-sm shadow-xl border-x transition-colors duration-300 ${
+          isDarkMode
+            ? 'bg-gray-800/90 border-gray-700'
+            : 'bg-white/90 border-gray-100'
+        }`} style={{ height: '700px', overflow: 'hidden' }}>
           <div className="h-full flex flex-col">
             {/* 메시지 표시 영역 */}
-            <div className="flex-1 overflow-y-auto p-6 space-y-5 bg-gradient-to-b from-gray-50/30 to-transparent">
+            <div className={`flex-1 overflow-y-auto p-6 space-y-5 ${
+              isDarkMode
+                ? 'bg-gradient-to-b from-gray-900/30 to-transparent'
+                : 'bg-gradient-to-b from-gray-50/30 to-transparent'
+            }`}>
               {messages.length === 0 && (
                 <div className="text-center py-16">
-                  <div className="bg-gradient-to-br from-blue-100 to-indigo-100 w-20 h-20 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-lg">
+                  <div className={`w-20 h-20 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-lg ${
+                    isDarkMode
+                      ? 'bg-gradient-to-br from-blue-900 to-indigo-900'
+                      : 'bg-gradient-to-br from-blue-100 to-indigo-100'
+                  }`}>
                     <CategoryIcon className={`w-10 h-10 ${currentPolicy.color.replace('bg-', 'text-')}`} />
                   </div>
-                  <h3 className="text-2xl font-bold text-gray-800 mb-3">
+                  <h3 className={`text-2xl font-bold mb-3 ${
+                    isDarkMode ? 'text-gray-100' : 'text-gray-800'
+                  }`}>
                     {currentPolicy.name}에 대해 물어보세요
                   </h3>
-                  <p className="text-gray-500 mb-8">아래 예시를 클릭하거나 질문을 입력하면 AI가 즉시 답변합니다</p>
+                  <p className={`mb-8 ${
+                    isDarkMode ? 'text-gray-400' : 'text-gray-500'
+                  }`}>아래 예시를 클릭하거나 질문을 입력하면 AI가 즉시 답변합니다</p>
 
                   {/* 자주 묻는 질문 */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-3xl mx-auto">
@@ -560,7 +606,11 @@ ${currentPolicy.document}
                       <button
                         key={idx}
                         onClick={() => handleSendMessage(question)}
-                        className="text-left p-4 bg-white hover:bg-blue-50 rounded-2xl text-sm text-gray-700 transition-all duration-200 border border-gray-200 hover:border-blue-300 hover:shadow-lg group"
+                        className={`text-left p-4 rounded-2xl text-sm transition-all duration-200 border group ${
+                          isDarkMode
+                            ? 'bg-gray-700 hover:bg-gray-600 text-gray-200 border-gray-600 hover:border-blue-500 hover:shadow-lg'
+                            : 'bg-white hover:bg-blue-50 text-gray-700 border-gray-200 hover:border-blue-300 hover:shadow-lg'
+                        }`}
                       >
                         <span className="text-blue-500 group-hover:scale-110 inline-block transition-transform">💬</span> {question}
                       </button>
@@ -578,7 +628,9 @@ ${currentPolicy.document}
                     className={`max-w-[85%] rounded-2xl px-5 py-3.5 shadow-md ${
                       message.role === 'user'
                         ? `${currentPolicy.color} text-white`
-                        : 'bg-white text-gray-800 border border-gray-100'
+                        : isDarkMode
+                          ? 'bg-gray-700 text-gray-100 border border-gray-600'
+                          : 'bg-white text-gray-800 border border-gray-100'
                     }`}
                   >
                     <p className="whitespace-pre-wrap leading-relaxed text-sm sm:text-base">{message.content}</p>
@@ -588,7 +640,11 @@ ${currentPolicy.document}
 
               {isLoading && (
                 <div className="flex justify-start">
-                  <div className="bg-white border border-gray-100 rounded-2xl px-5 py-4 shadow-md">
+                  <div className={`rounded-2xl px-5 py-4 shadow-md border ${
+                    isDarkMode
+                      ? 'bg-gray-700 border-gray-600'
+                      : 'bg-white border-gray-100'
+                  }`}>
                     <div className="flex gap-1.5">
                       <div className="w-2.5 h-2.5 bg-blue-400 rounded-full animate-bounce"></div>
                       <div className="w-2.5 h-2.5 bg-indigo-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
@@ -600,7 +656,11 @@ ${currentPolicy.document}
             </div>
 
             {/* 입력 영역 */}
-            <div className="border-t border-gray-100 p-5 bg-white/80 backdrop-blur-sm">
+            <div className={`border-t p-5 backdrop-blur-sm transition-colors duration-300 ${
+              isDarkMode
+                ? 'border-gray-700 bg-gray-800/80'
+                : 'border-gray-100 bg-white/80'
+            }`}>
               <div className="flex gap-3">
                 <input
                   type="text"
@@ -608,7 +668,11 @@ ${currentPolicy.document}
                   onChange={(e) => setInputMessage(e.target.value)}
                   onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
                   placeholder={`${currentPolicy.name}에 대해 질문하세요...`}
-                  className="flex-1 px-5 py-3.5 border border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all shadow-sm bg-white"
+                  className={`flex-1 px-5 py-3.5 border rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all shadow-sm ${
+                    isDarkMode
+                      ? 'bg-gray-700 border-gray-600 text-gray-100 placeholder-gray-400'
+                      : 'bg-white border-gray-200 text-gray-800 placeholder-gray-400'
+                  }`}
                   disabled={isLoading}
                 />
                 <button
@@ -624,9 +688,15 @@ ${currentPolicy.document}
         </div>
 
         {/* 푸터 */}
-        <div className="bg-white/90 backdrop-blur-sm rounded-b-3xl shadow-xl border border-gray-100 p-5 sm:p-6">
+        <div className={`backdrop-blur-sm rounded-b-3xl shadow-xl border p-5 sm:p-6 transition-colors duration-300 ${
+          isDarkMode
+            ? 'bg-gray-800/90 border-gray-700'
+            : 'bg-white/90 border-gray-100'
+        }`}>
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-            <p className="text-xs sm:text-sm text-gray-500 flex items-start gap-2">
+            <p className={`text-xs sm:text-sm flex items-start gap-2 ${
+              isDarkMode ? 'text-gray-400' : 'text-gray-500'
+            }`}>
               <span className="text-blue-500 text-base">💡</span>
               <span>답변은 AI가 회사 규정과 근로기준법을 기반으로 제공합니다. 정확한 내용은 경영지원팀에 문의하세요.</span>
             </p>
@@ -643,10 +713,16 @@ ${currentPolicy.document}
         {/* 문의하기 모달 */}
         {showContactModal && (
           <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4 animate-fade-in">
-            <div className="bg-white rounded-3xl shadow-2xl max-w-md w-full p-8 relative transform transition-all">
+            <div className={`rounded-3xl shadow-2xl max-w-md w-full p-8 relative transform transition-all ${
+              isDarkMode ? 'bg-gray-800' : 'bg-white'
+            }`}>
               <button
                 onClick={() => setShowContactModal(false)}
-                className="absolute top-5 right-5 text-gray-400 hover:text-gray-600 transition-colors hover:rotate-90 duration-200"
+                className={`absolute top-5 right-5 transition-colors hover:rotate-90 duration-200 ${
+                  isDarkMode
+                    ? 'text-gray-500 hover:text-gray-300'
+                    : 'text-gray-400 hover:text-gray-600'
+                }`}
               >
                 <X className="w-6 h-6" />
               </button>
@@ -655,22 +731,28 @@ ${currentPolicy.document}
                 <div className="bg-gradient-to-br from-blue-500 to-indigo-600 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
                   <MessageCircle className="w-8 h-8 text-white" />
                 </div>
-                <h2 className="text-2xl font-bold text-gray-800 mb-2">경영지원팀 문의</h2>
-                <p className="text-gray-500">원하시는 방법으로 문의해주세요</p>
+                <h2 className={`text-2xl font-bold mb-2 ${
+                  isDarkMode ? 'text-gray-100' : 'text-gray-800'
+                }`}>경영지원팀 문의</h2>
+                <p className={isDarkMode ? 'text-gray-400' : 'text-gray-500'}>원하시는 방법으로 문의해주세요</p>
               </div>
 
               <div className="space-y-3 mb-6">
                 {/* 이메일 문의 */}
                 <a
                   href={`mailto:${CONTACT_INFO.email}?subject=규정 문의&body=안녕하세요, 다음 내용에 대해 문의드립니다:%0D%0A%0D%0A`}
-                  className="flex items-center gap-4 p-4 bg-gradient-to-r from-blue-50 to-blue-100 hover:from-blue-100 hover:to-blue-200 rounded-2xl transition-all duration-200 group transform hover:scale-105"
+                  className={`flex items-center gap-4 p-4 rounded-2xl transition-all duration-200 group transform hover:scale-105 ${
+                    isDarkMode
+                      ? 'bg-gradient-to-r from-blue-900/50 to-blue-800/50 hover:from-blue-800/60 hover:to-blue-700/60'
+                      : 'bg-gradient-to-r from-blue-50 to-blue-100 hover:from-blue-100 hover:to-blue-200'
+                  }`}
                 >
                   <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center shadow-md group-hover:shadow-lg transition-shadow">
                     <Mail className="w-6 h-6 text-white" />
                   </div>
                   <div className="flex-1">
-                    <div className="font-semibold text-gray-800">이메일</div>
-                    <div className="text-xs text-gray-500">{CONTACT_INFO.email}</div>
+                    <div className={`font-semibold ${isDarkMode ? 'text-gray-100' : 'text-gray-800'}`}>이메일</div>
+                    <div className={`text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>{CONTACT_INFO.email}</div>
                   </div>
                 </a>
 
@@ -679,34 +761,44 @@ ${currentPolicy.document}
                   href={CONTACT_INFO.teams}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-4 p-4 bg-gradient-to-r from-purple-50 to-purple-100 hover:from-purple-100 hover:to-purple-200 rounded-2xl transition-all duration-200 group transform hover:scale-105"
+                  className={`flex items-center gap-4 p-4 rounded-2xl transition-all duration-200 group transform hover:scale-105 ${
+                    isDarkMode
+                      ? 'bg-gradient-to-r from-purple-900/50 to-purple-800/50 hover:from-purple-800/60 hover:to-purple-700/60'
+                      : 'bg-gradient-to-r from-purple-50 to-purple-100 hover:from-purple-100 hover:to-purple-200'
+                  }`}
                 >
                   <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl flex items-center justify-center shadow-md group-hover:shadow-lg transition-shadow">
                     <MessageSquare className="w-6 h-6 text-white" />
                   </div>
                   <div className="flex-1">
-                    <div className="font-semibold text-gray-800">Teams 채팅</div>
-                    <div className="text-xs text-gray-500">{CONTACT_INFO.teamsChannel}</div>
+                    <div className={`font-semibold ${isDarkMode ? 'text-gray-100' : 'text-gray-800'}`}>Teams 채팅</div>
+                    <div className={`text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>{CONTACT_INFO.teamsChannel}</div>
                   </div>
                 </a>
 
                 {/* 전화 문의 */}
                 <a
                   href={`tel:${CONTACT_INFO.phone}`}
-                  className="flex items-center gap-4 p-4 bg-gradient-to-r from-green-50 to-green-100 hover:from-green-100 hover:to-green-200 rounded-2xl transition-all duration-200 group transform hover:scale-105"
+                  className={`flex items-center gap-4 p-4 rounded-2xl transition-all duration-200 group transform hover:scale-105 ${
+                    isDarkMode
+                      ? 'bg-gradient-to-r from-green-900/50 to-green-800/50 hover:from-green-800/60 hover:to-green-700/60'
+                      : 'bg-gradient-to-r from-green-50 to-green-100 hover:from-green-100 hover:to-green-200'
+                  }`}
                 >
                   <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-green-600 rounded-xl flex items-center justify-center shadow-md group-hover:shadow-lg transition-shadow">
                     <Phone className="w-6 h-6 text-white" />
                   </div>
                   <div className="flex-1">
-                    <div className="font-semibold text-gray-800">전화</div>
-                    <div className="text-xs text-gray-500">{CONTACT_INFO.phoneDisplay}</div>
+                    <div className={`font-semibold ${isDarkMode ? 'text-gray-100' : 'text-gray-800'}`}>전화</div>
+                    <div className={`text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>{CONTACT_INFO.phoneDisplay}</div>
                   </div>
                 </a>
               </div>
 
-              <div className="bg-gray-50 rounded-2xl p-4 text-center">
-                <p className="text-sm text-gray-500">
+              <div className={`rounded-2xl p-4 text-center ${
+                isDarkMode ? 'bg-gray-700/50' : 'bg-gray-50'
+              }`}>
+                <p className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
                   ⏰ {CONTACT_INFO.workingHours}
                 </p>
               </div>
