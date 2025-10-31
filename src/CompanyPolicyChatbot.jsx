@@ -494,39 +494,41 @@ ${currentPolicy.document}
   const CategoryIcon = currentPolicy.icon;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-4">
-      <div className="max-w-6xl mx-auto">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 p-4 sm:p-6">
+      <div className="max-w-5xl mx-auto">
         {/* 헤더 */}
-        <div className="bg-white rounded-t-2xl shadow-lg p-4 sm:p-6 border-b">
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
-            <div className="flex items-center gap-3">
-              <FileText className="w-6 h-6 sm:w-8 sm:h-8 text-blue-600 flex-shrink-0" />
+        <div className="bg-white/90 backdrop-blur-sm rounded-t-3xl shadow-xl border border-gray-100 p-5 sm:p-8">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+            <div className="flex items-center gap-4">
+              <div className="bg-gradient-to-br from-blue-500 to-indigo-600 p-3 rounded-2xl shadow-lg">
+                <FileText className="w-6 h-6 sm:w-7 sm:h-7 text-white flex-shrink-0" />
+              </div>
               <div className="min-w-0 flex-1">
-                <h1 className="text-lg sm:text-2xl font-bold text-gray-800">
+                <h1 className="text-xl sm:text-3xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">
                   {COMPANY_NAME} 규정메이트
                 </h1>
-                <p className="text-xs sm:text-sm text-slate-600 break-keep">
+                <p className="text-xs sm:text-sm text-gray-500 break-keep mt-1">
                   AI가 회사 규정과 근로기준법을 기반으로 정확하고 간결하게 답변합니다.
                 </p>
               </div>
             </div>
-            <span className="px-3 py-1 rounded-full text-xs font-semibold bg-amber-100 text-amber-700 shadow self-start sm:self-auto whitespace-nowrap">
-              AI Assistant
+            <span className="px-4 py-2 rounded-full text-xs font-semibold bg-gradient-to-r from-amber-400 to-orange-400 text-white shadow-md self-start sm:self-auto whitespace-nowrap">
+              ✨ AI Assistant
             </span>
           </div>
 
           {/* 카테고리 선택 버튼 */}
-          <div className="flex gap-2 flex-wrap">
+          <div className="flex gap-3 flex-wrap">
             {Object.entries(POLICY_CATEGORIES).map(([key, policy]) => {
               const Icon = policy.icon;
               return (
                 <button
                   key={key}
                   onClick={() => handleCategoryChange(key)}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all ${
+                  className={`flex items-center gap-2 px-5 py-2.5 rounded-xl transition-all duration-200 font-medium ${
                     selectedCategory === key
-                      ? `${policy.color} text-white shadow-md hover:shadow-lg`
-                      : 'bg-slate-50 text-slate-700 hover:bg-blue-50 hover:text-blue-700 border border-slate-200'
+                      ? `${policy.color} text-white shadow-lg shadow-blue-200 scale-105`
+                      : 'bg-gray-50 text-gray-700 hover:bg-white hover:shadow-md border border-gray-200 hover:border-blue-200'
                   }`}
                 >
                   <Icon className="w-4 h-4" />
@@ -538,27 +540,29 @@ ${currentPolicy.document}
         </div>
 
         {/* 채팅 영역 */}
-        <div className="bg-white shadow-lg" style={{ height: '700px', overflow: 'hidden' }}>
+        <div className="bg-white/90 backdrop-blur-sm shadow-xl border-x border-gray-100" style={{ height: '700px', overflow: 'hidden' }}>
           <div className="h-full flex flex-col">
             {/* 메시지 표시 영역 */}
-            <div className="flex-1 overflow-y-auto p-6 space-y-4">
+            <div className="flex-1 overflow-y-auto p-6 space-y-5 bg-gradient-to-b from-gray-50/30 to-transparent">
               {messages.length === 0 && (
-                <div className="text-center py-12">
-                  <CategoryIcon className={`w-16 h-16 mx-auto mb-4 ${currentPolicy.color.replace('bg-', 'text-')}`} />
-                  <h3 className="text-xl font-semibold text-gray-800 mb-2">
+                <div className="text-center py-16">
+                  <div className="bg-gradient-to-br from-blue-100 to-indigo-100 w-20 h-20 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-lg">
+                    <CategoryIcon className={`w-10 h-10 ${currentPolicy.color.replace('bg-', 'text-')}`} />
+                  </div>
+                  <h3 className="text-2xl font-bold text-gray-800 mb-3">
                     {currentPolicy.name}에 대해 물어보세요
                   </h3>
-                  <p className="text-gray-600 mb-6">아래 예시를 클릭하거나 질문을 입력하면 🤖 AI가 즉시 답합니다</p>
+                  <p className="text-gray-500 mb-8">아래 예시를 클릭하거나 질문을 입력하면 AI가 즉시 답변합니다</p>
 
                   {/* 자주 묻는 질문 */}
-                  <div className="grid grid-cols-2 gap-2 max-w-2xl mx-auto">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-3xl mx-auto">
                     {currentPolicy.commonQuestions.map((question, idx) => (
                       <button
                         key={idx}
                         onClick={() => handleSendMessage(question)}
-                        className="text-left p-3 bg-slate-50 hover:bg-blue-50 rounded-lg text-sm text-slate-700 transition-all border border-slate-200 hover:border-blue-200 hover:shadow-sm"
+                        className="text-left p-4 bg-white hover:bg-blue-50 rounded-2xl text-sm text-gray-700 transition-all duration-200 border border-gray-200 hover:border-blue-300 hover:shadow-lg group"
                       >
-                        💬 {question}
+                        <span className="text-blue-500 group-hover:scale-110 inline-block transition-transform">💬</span> {question}
                       </button>
                     ))}
                   </div>
@@ -568,27 +572,27 @@ ${currentPolicy.document}
               {messages.map((message, idx) => (
                 <div
                   key={idx}
-                  className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
+                  className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'} animate-fade-in`}
                 >
                   <div
-                    className={`max-w-[80%] rounded-2xl px-4 py-3 ${
+                    className={`max-w-[85%] rounded-2xl px-5 py-3.5 shadow-md ${
                       message.role === 'user'
                         ? `${currentPolicy.color} text-white`
-                        : 'bg-gray-100 text-gray-800'
+                        : 'bg-white text-gray-800 border border-gray-100'
                     }`}
                   >
-                    <p className="whitespace-pre-wrap">{message.content}</p>
+                    <p className="whitespace-pre-wrap leading-relaxed text-sm sm:text-base">{message.content}</p>
                   </div>
                 </div>
               ))}
 
               {isLoading && (
                 <div className="flex justify-start">
-                  <div className="bg-gray-100 rounded-2xl px-4 py-3">
-                    <div className="flex gap-1">
-                      <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
-                      <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                      <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                  <div className="bg-white border border-gray-100 rounded-2xl px-5 py-4 shadow-md">
+                    <div className="flex gap-1.5">
+                      <div className="w-2.5 h-2.5 bg-blue-400 rounded-full animate-bounce"></div>
+                      <div className="w-2.5 h-2.5 bg-indigo-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+                      <div className="w-2.5 h-2.5 bg-purple-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
                     </div>
                   </div>
                 </div>
@@ -596,21 +600,21 @@ ${currentPolicy.document}
             </div>
 
             {/* 입력 영역 */}
-            <div className="border-t p-4 bg-gray-50">
-              <div className="flex gap-2">
+            <div className="border-t border-gray-100 p-5 bg-white/80 backdrop-blur-sm">
+              <div className="flex gap-3">
                 <input
                   type="text"
                   value={inputMessage}
                   onChange={(e) => setInputMessage(e.target.value)}
                   onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
                   placeholder={`${currentPolicy.name}에 대해 질문하세요...`}
-                  className="flex-1 px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="flex-1 px-5 py-3.5 border border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all shadow-sm bg-white"
                   disabled={isLoading}
                 />
                 <button
                   onClick={() => handleSendMessage()}
                   disabled={isLoading || !inputMessage.trim()}
-                  className={`${currentPolicy.color} text-white p-3 rounded-xl hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed`}
+                  className={`${currentPolicy.color} text-white p-3.5 rounded-2xl hover:shadow-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-105 active:scale-95`}
                 >
                   <Send className="w-5 h-5" />
                 </button>
@@ -620,46 +624,53 @@ ${currentPolicy.document}
         </div>
 
         {/* 푸터 */}
-        <div className="bg-white rounded-b-2xl shadow-lg p-4">
-          <div className="flex items-center justify-between">
-            <p className="text-sm text-gray-600">
-              💡 답변은 AI가 회사 규정과 근로기준법을 기반으로 제공합니다. 정확한 내용은 경영지원팀에 문의하세요.
+        <div className="bg-white/90 backdrop-blur-sm rounded-b-3xl shadow-xl border border-gray-100 p-5 sm:p-6">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <p className="text-xs sm:text-sm text-gray-500 flex items-start gap-2">
+              <span className="text-blue-500 text-base">💡</span>
+              <span>답변은 AI가 회사 규정과 근로기준법을 기반으로 제공합니다. 정확한 내용은 경영지원팀에 문의하세요.</span>
             </p>
             <button
               onClick={() => setShowContactModal(true)}
-              className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors whitespace-nowrap ml-4"
+              className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-xl hover:shadow-lg transition-all duration-200 whitespace-nowrap transform hover:scale-105 active:scale-95"
             >
               <MessageCircle className="w-4 h-4" />
-              문의하기
+              <span className="font-medium">문의하기</span>
             </button>
           </div>
         </div>
 
         {/* 문의하기 모달 */}
         {showContactModal && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-            <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-6 relative">
+          <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4 animate-fade-in">
+            <div className="bg-white rounded-3xl shadow-2xl max-w-md w-full p-8 relative transform transition-all">
               <button
                 onClick={() => setShowContactModal(false)}
-                className="absolute top-4 right-4 text-gray-400 hover:text-gray-600"
+                className="absolute top-5 right-5 text-gray-400 hover:text-gray-600 transition-colors hover:rotate-90 duration-200"
               >
                 <X className="w-6 h-6" />
               </button>
 
-              <h2 className="text-2xl font-bold text-gray-800 mb-2">경영지원팀 문의</h2>
-              <p className="text-gray-600 mb-6">원하시는 방법으로 문의해주세요</p>
+              <div className="text-center mb-8">
+                <div className="bg-gradient-to-br from-blue-500 to-indigo-600 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
+                  <MessageCircle className="w-8 h-8 text-white" />
+                </div>
+                <h2 className="text-2xl font-bold text-gray-800 mb-2">경영지원팀 문의</h2>
+                <p className="text-gray-500">원하시는 방법으로 문의해주세요</p>
+              </div>
 
-              <div className="space-y-3">
+              <div className="space-y-3 mb-6">
                 {/* 이메일 문의 */}
                 <a
                   href={`mailto:${CONTACT_INFO.email}?subject=규정 문의&body=안녕하세요, 다음 내용에 대해 문의드립니다:%0D%0A%0D%0A`}
-                  className="flex items-center gap-3 p-4 bg-blue-50 hover:bg-blue-100 rounded-lg transition-colors"
+                  className="flex items-center gap-4 p-4 bg-gradient-to-r from-blue-50 to-blue-100 hover:from-blue-100 hover:to-blue-200 rounded-2xl transition-all duration-200 group transform hover:scale-105"
                 >
-                  <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center">
+                  <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center shadow-md group-hover:shadow-lg transition-shadow">
                     <Mail className="w-6 h-6 text-white" />
                   </div>
-                  <div>
+                  <div className="flex-1">
                     <div className="font-semibold text-gray-800">이메일</div>
+                    <div className="text-xs text-gray-500">{CONTACT_INFO.email}</div>
                   </div>
                 </a>
 
@@ -668,33 +679,37 @@ ${currentPolicy.document}
                   href={CONTACT_INFO.teams}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-3 p-4 bg-purple-50 hover:bg-purple-100 rounded-lg transition-colors"
+                  className="flex items-center gap-4 p-4 bg-gradient-to-r from-purple-50 to-purple-100 hover:from-purple-100 hover:to-purple-200 rounded-2xl transition-all duration-200 group transform hover:scale-105"
                 >
-                  <div className="w-12 h-12 bg-purple-600 rounded-full flex items-center justify-center">
+                  <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl flex items-center justify-center shadow-md group-hover:shadow-lg transition-shadow">
                     <MessageSquare className="w-6 h-6 text-white" />
                   </div>
-                  <div>
+                  <div className="flex-1">
                     <div className="font-semibold text-gray-800">Teams 채팅</div>
+                    <div className="text-xs text-gray-500">{CONTACT_INFO.teamsChannel}</div>
                   </div>
                 </a>
 
                 {/* 전화 문의 */}
                 <a
                   href={`tel:${CONTACT_INFO.phone}`}
-                  className="flex items-center gap-3 p-4 bg-green-50 hover:bg-green-100 rounded-lg transition-colors"
+                  className="flex items-center gap-4 p-4 bg-gradient-to-r from-green-50 to-green-100 hover:from-green-100 hover:to-green-200 rounded-2xl transition-all duration-200 group transform hover:scale-105"
                 >
-                  <div className="w-12 h-12 bg-green-600 rounded-full flex items-center justify-center">
+                  <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-green-600 rounded-xl flex items-center justify-center shadow-md group-hover:shadow-lg transition-shadow">
                     <Phone className="w-6 h-6 text-white" />
                   </div>
-                  <div>
-                    <div className="font-semibold text-gray-800">전화 : {CONTACT_INFO.phoneDisplay}</div>
+                  <div className="flex-1">
+                    <div className="font-semibold text-gray-800">전화</div>
+                    <div className="text-xs text-gray-500">{CONTACT_INFO.phoneDisplay}</div>
                   </div>
                 </a>
               </div>
 
-              <p className="text-sm text-gray-500 mt-6 text-center">
-                평일 09:00~18:00 / 점심시간 12:00~13:00
-              </p>
+              <div className="bg-gray-50 rounded-2xl p-4 text-center">
+                <p className="text-sm text-gray-500">
+                  ⏰ {CONTACT_INFO.workingHours}
+                </p>
+              </div>
             </div>
           </div>
         )}
